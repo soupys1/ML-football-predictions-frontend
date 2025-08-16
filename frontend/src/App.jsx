@@ -119,7 +119,7 @@ export default function App() {
                   ? 'bg-gradient-to-r from-slate-200 to-slate-300' 
                   : 'bg-gradient-to-r from-gray-100 to-gray-200'
               }`}>
-                ⚽ Match Predictor
+                ⚽ AI Football Predictor
               </span>
             </div>
             <div className="flex items-center gap-6 text-sm">
@@ -150,7 +150,7 @@ export default function App() {
                 ? 'bg-gradient-to-r from-slate-100 via-slate-200 to-slate-300' 
                 : 'bg-gradient-to-r from-gray-900 via-gray-800 to-gray-700'
             }`}>
-              Football Match Predictor
+              AI Football Predictor
             </h1>
             <p className={`text-xl max-w-3xl mx-auto leading-relaxed ${
               darkMode ? 'text-slate-300' : 'text-gray-200'
@@ -694,7 +694,7 @@ export default function App() {
                 ? 'bg-gradient-to-r from-slate-200 to-slate-300' 
                 : 'bg-gradient-to-r from-gray-700 to-gray-800'
             }`}>
-              Built with React + Flask + Machine Learning
+                             Built with React + Flask + AI Machine Learning
             </span>
           </div>
           <div className="flex justify-center gap-8 text-xs">

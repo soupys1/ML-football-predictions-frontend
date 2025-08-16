@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { fetchLeaguesSummary, fetchTeams, predictByTeams } from './api'
+import { fetchLeaguesSummary, fetchTeams, predictByTeams, getModelStatus } from './api'
 
 export default function App() {
   const [leagues, setLeagues] = useState([])
@@ -12,13 +12,16 @@ export default function App() {
   const [error, setError] = useState('')
   const [animateResults, setAnimateResults] = useState(false)
   const [darkMode, setDarkMode] = useState(true)
+  const [apiStatus, setApiStatus] = useState('checking')
 
   async function loadLeagues() {
     try {
       const data = await fetchLeaguesSummary()
       setLeagues(data.leagues || [])
+      setApiStatus('connected')
     } catch (e) {
       console.error('Failed to load leagues:', e)
+      setApiStatus('error')
     }
   }
 
@@ -157,6 +160,26 @@ export default function App() {
           </div>
         </div>
       </header>
+
+      {/* API Status Indicator */}
+      <div className="relative mx-auto max-w-6xl px-4 py-2">
+        <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium ${
+          apiStatus === 'connected' 
+            ? 'bg-green-500/20 text-green-300 border border-green-500/30' 
+            : apiStatus === 'error'
+            ? 'bg-red-500/20 text-red-300 border border-red-500/30'
+            : 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30'
+        }`}>
+          <div className={`w-2 h-2 rounded-full ${
+            apiStatus === 'connected' ? 'bg-green-400 animate-pulse' 
+            : apiStatus === 'error' ? 'bg-red-400' 
+            : 'bg-yellow-400 animate-spin'
+          }`}></div>
+          {apiStatus === 'connected' ? 'API Connected' 
+           : apiStatus === 'error' ? 'API Error' 
+           : 'Connecting to API...'}
+        </div>
+      </div>
 
       <main className="relative mx-auto max-w-6xl px-4 py-12">
         <section id="leagues" className={`backdrop-blur-xl border rounded-3xl shadow-2xl p-8 mb-12 transition-all duration-500 hover:scale-105 ${

@@ -15,7 +15,7 @@ from ml.team_player_features import rank_mvp_candidates, rank_top_players_for_te
 from ml.csv_loader import read_csv_smart
 
 app = Flask(__name__)
-CORS(app, origins=["http://localhost:5173", "http://127.0.0.1:5173"], supports_credentials=True)
+CORS(app, origins=["http://localhost:5173", "http://127.0.0.1:5173", "https://football-predictor-frontend.vercel.app", "https://football-predictor-frontend.netlify.app"], supports_credentials=True)
 
 # Initialize AWS S3 client
 s3_client = boto3.client('s3') if os.getenv('AWS_ACCESS_KEY_ID') else None
@@ -38,6 +38,24 @@ def save_model_to_s3(model_path, bucket_name, file_key):
             print(f"Uploaded model to S3: {file_key}")
         except Exception as e:
             print(f"Failed to upload model to S3: {e}")
+
+@app.route('/', methods=['GET'])
+def root():
+    """Root endpoint"""
+    return jsonify({
+        'message': 'Football Predictor Backend API',
+        'service': 'football-predictor-backend',
+        'version': '1.0.0',
+        'endpoints': {
+            'health': '/api/health',
+            'leagues': '/api/football/leagues/summary',
+            'teams': '/api/football/teams/{league_id}',
+            'predict': '/api/football/game/predict-by-teams',
+            'train': '/api/football/game/train-with-teams-players',
+            'upload': '/api/football/data/upload',
+            'model_status': '/api/football/model/status'
+        }
+    })
 
 @app.route('/api/health', methods=['GET'])
 def health_check():

@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build --mode production",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "postinstall": "chmod +x node_modules/.bin/vite || echo 'Permission fix applied'"
   },
   "dependencies": {
     "react": "^18.3.1",
